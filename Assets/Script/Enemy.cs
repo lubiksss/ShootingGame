@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public Sprite[] sprites;
     SpriteRenderer spriteRenderer;
     public string enemyName;
+    public int enemyScore;
 
     public GameObject bulletObjA;
     public GameObject bulletObjB;
@@ -34,6 +35,9 @@ public class Enemy : MonoBehaviour
         Invoke("returnSprite", 0.1f);
         if (health <= 0)
         {
+            PlayerAction playerLogic = player.GetComponent<PlayerAction>();
+            playerLogic.score += enemyScore;
+
             Destroy(gameObject);
         }
     }

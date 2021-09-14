@@ -140,6 +140,7 @@ MonoBehaviour:
   - {fileID: 8414478535512612329, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: 4326287474489854147, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   enemyName: S
+  enemyScore: 100
   bulletObjA: {fileID: 1916155613987421187, guid: 17fb4d5f8a1bc6046950ee7e504b5d33, type: 3}
   bulletObjB: {fileID: 1916155613987421187, guid: 70c048333dfdb7944a8e33c6d08c2de1, type: 3}
   maxShotDelay: 1

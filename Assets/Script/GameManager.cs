@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class GameManager : MonoBehaviour
     public float maxSpawnDelay;
     public float curSpawnDelay;
     public GameObject player;
+    public Text scoreText;
+    public Image[] lifeImage;
+    public GameObject gameOverSet;
 
     void Update()
     {
@@ -19,6 +24,10 @@ public class GameManager : MonoBehaviour
             maxSpawnDelay = Random.Range(0.5f, 3f);
             curSpawnDelay = 0;
         }
+
+        // UI Score Update
+        PlayerAction playerLogic = player.GetComponent<PlayerAction>();
+        scoreText.text = string.Format("{0:n0}", playerLogic.score);
     }
 
 
@@ -54,5 +63,31 @@ public class GameManager : MonoBehaviour
     {
         player.transform.position = Vector3.down * 4;
         player.SetActive(true);
+        PlayerAction playerLogic = player.GetComponent<PlayerAction>();
+        playerLogic.isHit = false;
+    }
+    public void updateLifeIcon(int life)
+    {
+        // UI Life Init Disable
+        for (int index = 0; index < 3; index++)
+        {
+            lifeImage[index].color = new Color(1, 1, 1, 0);
+        }
+        // UI Life Active
+        for (int index = 0; index < life; index++)
+        {
+            lifeImage[index].color = new Color(1, 1, 1, 1);
+        }
+    }
+
+    public void GameOver()
+    {
+        gameOverSet.SetActive(true);
+
+    }
+
+    public void GameRetry()
+    {
+        SceneManager.LoadScene(0);
     }
 }

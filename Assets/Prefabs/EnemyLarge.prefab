@@ -150,6 +150,7 @@ MonoBehaviour:
   - {fileID: -8421458170528590454, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   - {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   enemyName: L
+  enemyScore: 500
   bulletObjA: {fileID: 1916155613987421187, guid: 17fb4d5f8a1bc6046950ee7e504b5d33, type: 3}
   bulletObjB: {fileID: 1916155613987421187, guid: 70c048333dfdb7944a8e33c6d08c2de1, type: 3}
   maxShotDelay: 1
