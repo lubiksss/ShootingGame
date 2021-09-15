@@ -6,30 +6,38 @@ public class PlayerAction : MonoBehaviour
 {
     public Animator animator;
     public float speed;
-    public float power;
+    public int power;
+    public int maxpower;
     public float maxShotDelay;
     public float curShotDelay;
     public bool isTouchTop;
     public bool isTouchBottom;
     public bool isTouchRight;
     public bool isTouchLeft;
+    public bool isBoomTime;
+
     public int life;
     public int score;
     public bool isHit;
+    public int boom;
+    public int boommax;
 
     public GameObject bulletObjA;
     public GameObject bulletObjB;
     public GameManager manager;
+    public GameObject BoomEffect;
 
     void Awake()
     {
         animator = GetComponent<Animator>();
+        manager.updateBoomIcon(boom);
     }
 
     void Update()
     {
         Move();
         Fire();
+        Boom();
         Reload();
     }
 
@@ -65,6 +73,72 @@ public class PlayerAction : MonoBehaviour
             gameObject.SetActive(false);
             Destroy(collision.gameObject);
         }
+
+        else if (collision.gameObject.tag == "Item")
+        {
+            Item item = collision.gameObject.GetComponent<Item>();
+            switch (item.type)
+            {
+                case "Coin":
+                    score += 1000;
+                    break;
+                case "Power":
+                    if (power == maxpower)
+                    {
+                        score += 500;
+                    }
+                    else
+                    {
+                        power++;
+                    }
+                    break;
+                case "Boom":
+                    if (boom == boommax)
+                    {
+                        score += 1000;
+                    }
+                    else
+                    {
+                        boom++;
+                        manager.updateBoomIcon(boom);
+                    }
+                    break;
+            }
+            Destroy(collision.gameObject);
+        }
+    }
+    void Boom()
+    {
+        if (!Input.GetButton("Fire2")) { return; }
+        if (isBoomTime) { return; }
+        if (boom == 0) { return; }
+        boom--;
+        manager.updateBoomIcon(boom);
+        isBoomTime = true;
+        // 1.Effect Visible
+        BoomEffect.SetActive(true);
+        Invoke("OffBoomEffect", 4f);
+        // 2. Remove Enemy
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        Debug.Log(enemies.Length);
+        for (int index = 0; index < enemies.Length; index++)
+        {
+            Enemy enemyLogic = enemies[index].GetComponent<Enemy>();
+            enemyLogic.OnHit(1000);
+        }
+
+        // 3. Remove Enemy Bullet
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("EnemyBullet");
+        Debug.Log(bullets.Length);
+        for (int index = 0; index < bullets.Length; index++)
+        {
+            Destroy(bullets[index]);
+        }
+    }
+    void OffBoomEffect()
+    {
+        isBoomTime = false;
+        BoomEffect.SetActive(false);
     }
     void OnTriggerExit2D(Collider2D collision)
     {
@@ -98,7 +172,7 @@ public class PlayerAction : MonoBehaviour
     void Fire()
     {
         // 조건이 아니면 리턴
-        if (!Input.GetButton("Jump")) { return; }
+        if (!Input.GetButton("Fire1")) { return; }
         // 딜레이 줌.
         if (curShotDelay < maxShotDelay) { return; }
         // 조건 다 만족하면 쏘겠음.

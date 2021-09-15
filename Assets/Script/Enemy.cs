@@ -16,6 +16,10 @@ public class Enemy : MonoBehaviour
     public float maxShotDelay;
     public float curShotDelay;
     public GameObject player;
+    public GameObject itemCoin;
+    public GameObject itemPower;
+    public GameObject itemBoom;
+
 
     void Awake()
     {
@@ -28,8 +32,9 @@ public class Enemy : MonoBehaviour
         Reload();
     }
 
-    void OnHit(int dmg)
+    public void OnHit(int dmg)
     {
+        if (health < 0) { return; }
         health -= dmg;
         spriteRenderer.sprite = sprites[1];
         Invoke("returnSprite", 0.1f);
@@ -37,7 +42,12 @@ public class Enemy : MonoBehaviour
         {
             PlayerAction playerLogic = player.GetComponent<PlayerAction>();
             playerLogic.score += enemyScore;
-
+            // Random Ratio Item Drop
+            int ran = Random.Range(0, 10);
+            if (ran < 5) { Debug.Log("No Item"); }
+            else if (ran < 8) { Instantiate(itemCoin, transform.position, itemCoin.transform.rotation); }
+            else if (ran < 9) { Instantiate(itemPower, transform.position, itemCoin.transform.rotation); }
+            else if (ran < 10) { Instantiate(itemBoom, transform.position, itemCoin.transform.rotation); }
             Destroy(gameObject);
         }
     }
@@ -67,7 +77,7 @@ public class Enemy : MonoBehaviour
             Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
 
             Vector3 dirVec = player.transform.position - transform.position;
-            rigid.AddForce(dirVec.normalized * 10, ForceMode2D.Impulse);
+            rigid.AddForce(dirVec.normalized * 5, ForceMode2D.Impulse);
             curShotDelay = 0;
         }
         else if (enemyName == "L")
@@ -75,12 +85,12 @@ public class Enemy : MonoBehaviour
             GameObject bulletL = Instantiate(bulletObjB, transform.position + Vector3.left * 0.3f, transform.rotation);
             Rigidbody2D rigidL = bulletL.GetComponent<Rigidbody2D>();
             Vector3 dirVecL = player.transform.position - transform.position;
-            rigidL.AddForce(dirVecL.normalized * 10, ForceMode2D.Impulse);
+            rigidL.AddForce(dirVecL.normalized * 5, ForceMode2D.Impulse);
 
             GameObject bulletR = Instantiate(bulletObjB, transform.position + Vector3.right * 0.3f, transform.rotation);
             Rigidbody2D rigidR = bulletR.GetComponent<Rigidbody2D>();
             Vector3 dirVecR = player.transform.position - transform.position;
-            rigidR.AddForce(dirVecR.normalized * 10, ForceMode2D.Impulse);
+            rigidR.AddForce(dirVecR.normalized * 5, ForceMode2D.Impulse);
             curShotDelay = 0;
         }
 

@@ -161,3 +161,6 @@ MonoBehaviour:
   maxShotDelay: 1
   curShotDelay: 0
   player: {fileID: 0}
+  itemCoin: {fileID: 2616564992231652092, guid: 2ba32ae004f9da849855ce04461b4d3a, type: 3}
+  itemPower: {fileID: 1217710327991626491, guid: 4e3911140dbd8f549a44f06929c880ab, type: 3}
+  itemBoom: {fileID: 2565211979122375306, guid: e01e690cd86bfa645aa43364ff5fcd5a, type: 3}
