@@ -7,6 +7,11 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
+    public int stage;
+    public Animator stageAnim;
+    public Animator clearAnim;
+    public Transform playerPos;
+    public Animator fadeAnim;
     public string[] enemyObjs;
     public Transform[] spawnPoints;
     public float nextSpawnDelay;
@@ -20,15 +25,18 @@ public class GameManager : MonoBehaviour
     public List<Spawn> spawnList;
     public int spawnIndex;
     public bool spawnEnd;
+    public Text overText;
+    public Text deltaTime;
 
     void Awake()
     {
         spawnList = new List<Spawn>();
         enemyObjs = new string[] { "enemyL", "enemyM", "enemyS", "enemyBoss" };
-        ReadSpawnFile();
+        StageStart();
     }
     void Update()
     {
+        deltaTime.text = string.Format("{0,10:N4}", Time.deltaTime);
         curSpawnDelay += Time.deltaTime;
         if (curSpawnDelay > nextSpawnDelay && !spawnEnd)
         {
@@ -141,12 +149,48 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         gameOverSet.SetActive(true);
-
     }
 
     public void GameRetry()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public void StageStart()
+    {
+        // Stage UI Load
+        stageAnim.SetTrigger("On");
+        stageAnim.GetComponent<Text>().text = "STAGE" + stage + "\nStart";
+        clearAnim.GetComponent<Text>().text = "STAGE" + stage + "\nClear!";
+
+        // Enemy Spawn File Read
+        ReadSpawnFile();
+
+        // Fade In
+        fadeAnim.SetTrigger("In");
+    }
+
+    public void StageEnd()
+    {
+        // Clear UI Load
+        clearAnim.SetTrigger("On");
+
+        // Fade Out
+        fadeAnim.SetTrigger("Out");
+
+        // Player Repos
+        player.transform.position = playerPos.position;
+
+        // Stage Increament
+        stage++;
+        if (stage > 1)
+        {
+            overText.text = "All Clear!";
+            Invoke("GameOver", 6);
+        }
+        else
+            Invoke("StageStart", 5);
+
     }
 
     void ReadSpawnFile()
@@ -157,7 +201,7 @@ public class GameManager : MonoBehaviour
         spawnEnd = false;
 
         // 2. 리스폰 파일 일기
-        TextAsset textFile = Resources.Load("Stage0") as TextAsset;
+        TextAsset textFile = Resources.Load("Stage" + stage) as TextAsset;
         StringReader stringReader = new StringReader(textFile.text);
 
         // 3. 한줄씩 데이터 저장

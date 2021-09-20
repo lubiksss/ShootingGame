@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
                 health = 3;
                 break;
             case "Boss":
-                health = 3000;
+                health = 1000;
                 Invoke("Stop", 1.7f);
                 break;
 
@@ -81,33 +81,38 @@ public class Enemy : MonoBehaviour
         {
             spriteRenderer.sprite = sprites[1];
             Invoke("returnSprite", 0.1f);
-            if (health <= 0)
-            {
-                PlayerAction playerLogic = player.GetComponent<PlayerAction>();
-                playerLogic.score += enemyScore;
-                // Random Ratio Item Drop
-                int ran = enemyName == "Boss" ? 0 : Random.Range(0, 10);
-                if (ran < 2) { Debug.Log("No Item"); }
-                else if (ran < 6)
-                {
-                    GameObject itemCoin = objectManager.MakeObj("itemCoin");
-                    itemCoin.transform.position = transform.position;
-                }
-                else if (ran < 8)
-                {
-                    GameObject itemPower = objectManager.MakeObj("itemPower");
-                    itemPower.transform.position = transform.position;
-                }
-                else if (ran < 10)
-                {
-                    GameObject itemBoom = objectManager.MakeObj("itemBoom");
-                    itemBoom.transform.position = transform.position;
-                }
-                gameObject.SetActive(false);
-                transform.rotation = Quaternion.identity;
-                gameManager.CallExplosion(transform.position, enemyName);
-            }
         }
+        if (health <= 0)
+        {
+            PlayerAction playerLogic = player.GetComponent<PlayerAction>();
+            playerLogic.score += enemyScore;
+            // Random Ratio Item Drop
+            int ran = enemyName == "Boss" ? 0 : Random.Range(0, 10);
+            if (ran < 2) { Debug.Log("No Item"); }
+            else if (ran < 6)
+            {
+                GameObject itemCoin = objectManager.MakeObj("itemCoin");
+                itemCoin.transform.position = transform.position;
+            }
+            else if (ran < 8)
+            {
+                GameObject itemPower = objectManager.MakeObj("itemPower");
+                itemPower.transform.position = transform.position;
+            }
+            else if (ran < 10)
+            {
+                GameObject itemBoom = objectManager.MakeObj("itemBoom");
+                itemBoom.transform.position = transform.position;
+            }
+            gameObject.SetActive(false);
+            transform.rotation = Quaternion.identity;
+            gameManager.CallExplosion(transform.position, enemyName);
+
+            // Boss Kill
+            if (enemyName == "Boss")
+                gameManager.StageEnd();
+        }
+
     }
 
     void returnSprite()
@@ -199,6 +204,7 @@ public class Enemy : MonoBehaviour
     }
     void FireForward()
     {
+        if (health <= 0) { return; }
         // 전방으로 4발발사.
         GameObject bulletLL = objectManager.MakeObj("bulletBossA");
         bulletLL.transform.position = transform.position + Vector3.left * 0.45f;
@@ -236,6 +242,7 @@ public class Enemy : MonoBehaviour
     }
     void FireShot()
     {
+        if (health <= 0) { return; }
         // 플레이어 방향으로 샷건 발사
         for (int index = 0; index < 5; index++)
         {
@@ -260,6 +267,7 @@ public class Enemy : MonoBehaviour
     }
     void FireArc()
     {
+        if (health <= 0) { return; }
         // 플레이어 방향으로 아크모양으로 발사
         GameObject bullet = objectManager.MakeObj("bulletEnemyA");
         bullet.transform.position = transform.position;
@@ -281,6 +289,7 @@ public class Enemy : MonoBehaviour
     }
     void FireAround()
     {
+        if (health <= 0) { return; }
         // 보스 전방위로 발사
         int roundNumA = 50;
         int roundNumB = 40;
