@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAction : MonoBehaviour
 {
-    public Animator animator;
     public float speed;
     public int power;
     public int maxpower;
@@ -22,18 +21,21 @@ public class PlayerAction : MonoBehaviour
     public int boom;
     public int boommax;
 
+    public bool isRespawnTime;
+    public bool[] joyControl;
+    public bool isControl;
+    public bool isButtonA;
+    public bool isButtonB;
+
+    public Animator animator;
+    public SpriteRenderer sprite;
+
     public GameObject bulletObjA;
     public GameObject bulletObjB;
     public GameManager gameManager;
     public ObjectManager objectManager;
     public GameObject BoomEffect;
     public GameObject[] followers;
-    public bool isRespawnTime;
-    public SpriteRenderer sprite;
-    public bool[] joyControl;
-    public bool isControl;
-    public bool isButtonA;
-    public bool isButtonB;
 
     void Awake()
     {

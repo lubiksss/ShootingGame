@@ -7,20 +7,20 @@ using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    public int stage;
+    public GameObject player;
+    public GameObject gameOverSet;
     public Animator stageAnim;
     public Animator clearAnim;
     public Transform playerPos;
-    public Animator fadeAnim;
-    public string[] enemyObjs;
     public Transform[] spawnPoints;
+    public Animator fadeAnim;
+    public int stage;
+    public string[] enemyObjs;
     public float nextSpawnDelay;
     public float curSpawnDelay;
-    public GameObject player;
     public Text scoreText;
     public Image[] lifeImage;
     public Image[] boomImage;
-    public GameObject gameOverSet;
     public ObjectManager objectManager;
     public List<Spawn> spawnList;
     public int spawnIndex;
