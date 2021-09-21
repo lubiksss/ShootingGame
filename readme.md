@@ -1,6 +1,6 @@
 ## *참고
 <a href='https://www.youtube.com/watch?v=ETYzjbnLixY&list=PLO-mt5Iu5TeYtWvM9eN-xnwRbyUAMWd3b&index=1'>2D 종스크롤 슈팅 - 플레이어 이동 구현하기 [유니티 기초 강좌 B27 + 에셋 다운로드]</a>  
-<a href='https://github.com/lubiksss/ShootingGame'>블로그</a>
+<a href='https://lubiksss.github.io/unity/Unity_ShootingGame/'>블로그</a>
 
 Unity로 Shooting Game을 만들었습니다. 튜토리얼을 거쳐서 이번엔 정말 게임다운 게임을 만든 것 같습니다. 고민도 정말 많이 했고 게임을 만드는 기술도 많이 배웠습니다. 이번 프로젝트가 지금까지 배운 모든 것들의 집약체이기 때문에 이번 프로젝트는 작성한 스크립트나 배운 기술들을 정리해보도록 하겠습니다.
 
