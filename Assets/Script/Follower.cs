@@ -27,14 +27,17 @@ public class Follower : MonoBehaviour
 
     void Watch()
     {
+        // 현재 위치가 큐에 안담겼다면 넣음
         if (!parentPos.Contains(parent.position))
         {
             parentPos.Enqueue(parent.position);
         }
+        // followDelay를 넘어서는 순간부터 parent position 추적할수 있게
         if (parentPos.Count > followDelay)
         {
             followPos = parentPos.Dequeue();
         }
+        // 시작할때 parent에 붙어서 생성되게 함
         else if (parentPos.Count < followDelay)
         {
             followPos = parent.position;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObjectManager : MonoBehaviour
 {
+    // 모든 생성가능한 프리팹을 변수로 선언하여 에디터에서 담음
     public GameObject enemyLPrefab;
     public GameObject enemyMPrefab;
     public GameObject enemySPrefab;
@@ -19,6 +20,7 @@ public class ObjectManager : MonoBehaviour
     public GameObject bulletBossAPrefab;
     public GameObject bulletBossBPrefab;
     public GameObject explosionPrefab;
+    // 미리 객체로 만들리스트
     GameObject[] enemyL;
     GameObject[] enemyM;
     GameObject[] enemyS;
@@ -38,6 +40,7 @@ public class ObjectManager : MonoBehaviour
 
     private void Awake()
     {
+        // 시작과 동시에 필요한 객체 크기만큼 선언
         enemyL = new GameObject[10];
         enemyM = new GameObject[10];
         enemyS = new GameObject[20];
@@ -57,6 +60,7 @@ public class ObjectManager : MonoBehaviour
         Generate();
     }
 
+    // 이제 리스트에 객체를 담아줌
     void Generate()
     {
         for (int index = 0; index < enemyL.Length; index++)
@@ -199,6 +203,7 @@ public class ObjectManager : MonoBehaviour
         return null;
     }
 
+    // 플레이어가 폭탄 사용시 전부 없애버릴거기 때문에 풀자체를 리턴함
     public GameObject[] GetPool(string type)
     {
         switch (type)

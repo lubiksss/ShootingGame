@@ -29,6 +29,7 @@ public class BackGround : MonoBehaviour
     }
     void Scrolling()
     {
+        // 제일 아래 있는 배경사진이 화면 밖으로 나갈 경우 제일 위로 올림
         if (sprites[endIndex].position.y < viewHeight * (-1))
         {
             Vector3 backSpritePos = sprites[startIndex].localPosition;

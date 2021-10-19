@@ -86,19 +86,23 @@ public class Enemy : MonoBehaviour
         {
             PlayerAction playerLogic = player.GetComponent<PlayerAction>();
             playerLogic.score += enemyScore;
-            // Random Ratio Item Drop
+            // 아이템 드랍
             int ran = enemyName == "Boss" ? 0 : Random.Range(0, 10);
+            // 0,1,2 30% 없음
             if (ran < 2) { Debug.Log("No Item"); }
+            // 3,4,5 30% 코인
             else if (ran < 6)
             {
                 GameObject itemCoin = objectManager.MakeObj("itemCoin");
                 itemCoin.transform.position = transform.position;
             }
+            // 6,7 20% 파워업
             else if (ran < 8)
             {
                 GameObject itemPower = objectManager.MakeObj("itemPower");
                 itemPower.transform.position = transform.position;
             }
+            // 8,9 폭탄
             else if (ran < 10)
             {
                 GameObject itemBoom = objectManager.MakeObj("itemBoom");
@@ -205,7 +209,7 @@ public class Enemy : MonoBehaviour
     void FireForward()
     {
         if (health <= 0) { return; }
-        // 전방으로 4발발사.
+        // 속도가 조금 빠른 탄환 전방으로 4발발사
         GameObject bulletLL = objectManager.MakeObj("bulletBossA");
         bulletLL.transform.position = transform.position + Vector3.left * 0.45f;
         Rigidbody2D rigidLL = bulletLL.GetComponent<Rigidbody2D>();
@@ -243,7 +247,7 @@ public class Enemy : MonoBehaviour
     void FireShot()
     {
         if (health <= 0) { return; }
-        // 플레이어 방향으로 샷건 발사
+        // 플레이어 방향으로 탄환 5발 샷건 발사
         for (int index = 0; index < 5; index++)
         {
             GameObject bullet = objectManager.MakeObj("bulletEnemyB");
@@ -268,12 +272,13 @@ public class Enemy : MonoBehaviour
     void FireArc()
     {
         if (health <= 0) { return; }
-        // 플레이어 방향으로 아크모양으로 발사
+        // 플레이어 방향으로 탄환 아크모양으로 발사
         GameObject bullet = objectManager.MakeObj("bulletEnemyA");
         bullet.transform.position = transform.position;
         bullet.transform.rotation = Quaternion.identity;
 
         Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
+        // 삼각함수 사용하여 아크 모양으로 발사하게 함
         Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * 10 * curPatternCount / maxPatternCount[patternIndex]), -1);
         rigid.AddForce(dirVec.normalized * 5, ForceMode2D.Impulse);
 
@@ -293,6 +298,7 @@ public class Enemy : MonoBehaviour
         // 보스 전방위로 발사
         int roundNumA = 50;
         int roundNumB = 40;
+        // 두개로 한 이유는 한개로만 하면 플레이어가 가많이 있어도 총알 안 맞음
         int roundNum = curPatternCount % 2 == 0 ? roundNumA : roundNumB;
         for (int index = 0; index < roundNum; index++)
         {
@@ -301,6 +307,7 @@ public class Enemy : MonoBehaviour
             bullet.transform.rotation = Quaternion.identity;
 
             Rigidbody2D rigid = bullet.GetComponent<Rigidbody2D>();
+            // 삼각함수 사용하여 원 모양으로 발사하게 함
             Vector2 dirVec = new Vector2(Mathf.Cos(Mathf.PI * 2 * index / roundNum), Mathf.Sin(Mathf.PI * 2 * index / roundNum));
             rigid.AddForce(dirVec.normalized * 2, ForceMode2D.Impulse);
 

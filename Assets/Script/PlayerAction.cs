@@ -84,6 +84,7 @@ public class PlayerAction : MonoBehaviour
         // Border Trigger
         if (collision.gameObject.tag == "Border")
         {
+            // 후에 무브함수에서 씀
             switch (collision.gameObject.name)
             {
                 case "Top": isTouchTop = true; break;
@@ -95,9 +96,11 @@ public class PlayerAction : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "EnemyBullet")
         {
+            // 리스폰타임이면 무적임 작용없음
             if (isRespawnTime)
                 return;
 
+            // 이미 피격된 상태여도 작용없음
             if (isHit)
                 return;
             isHit = true;
